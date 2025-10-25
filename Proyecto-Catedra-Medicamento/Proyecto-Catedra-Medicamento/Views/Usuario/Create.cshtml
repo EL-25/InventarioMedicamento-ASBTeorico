@@ -1,0 +1,68 @@
+﻿@model Proyecto_Catedra_Medicamento.Models.Usuario
+@{
+    ViewData["Title"] = "Registrar Usuario";
+}
+
+<header class="mb-4">
+    <h1 class="text-success">Registrar nuevo usuario</h1>
+    <p class="lead">
+        Complete los campos requeridos para agregar un nuevo usuario al sistema. El rol se asignará automáticamente según la estructura institucional.
+    </p>
+</header>
+
+<form asp-action="Create" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="nombre" class="form-label">Nombre completo</label>
+        <input asp-for="nombre" class="form-control" />
+        <span asp-validation-for="nombre" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="usuario" class="form-label">Usuario</label>
+        <input asp-for="usuario" class="form-control" />
+        <span asp-validation-for="usuario" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="contrasena" class="form-label">Contraseña</label>
+        <input asp-for="contrasena" class="form-control" type="password" />
+        <span asp-validation-for="contrasena" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="correo" class="form-label">Correo electrónico</label>
+        <input asp-for="correo" class="form-control" />
+        <span asp-validation-for="correo" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="telefono" class="form-label">Teléfono</label>
+        <input asp-for="telefono" class="form-control" />
+        <span asp-validation-for="telefono" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="departamento" class="form-label">Departamento</label>
+        <input asp-for="departamento" class="form-control" />
+        <span asp-validation-for="departamento" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="municipio" class="form-label">Municipio</label>
+        <input asp-for="municipio" class="form-control" />
+        <span asp-validation-for="municipio" class="text-danger"></span>
+    </div>
+
+    <div class="col-12 mt-4">
+        <button type="submit" class="btn btn-success px-4 py-2">
+            <i class="fas fa-save me-2"></i> Registrar usuario
+        </button>
+        <a asp-action="Index" class="btn btn-secondary ms-3">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,79 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.Usuario>
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+<header class="mb-4">
+    <h1 class="text-info">Gestión de Usuarios</h1>
+    <p class="lead">
+        Módulo institucional para el registro, edición y asignación de roles a usuarios del sistema.
+        Esta vista permite validar credenciales, actualizar perfiles y mantener el control administrativo.
+    </p>
+</header>
+
+@if (TempData["RegistroExitoso"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i> @TempData["RegistroExitoso"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+}
+@if (TempData["EdicionExitosa"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="fas fa-edit me-2"></i> @TempData["EdicionExitosa"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+}
+@if (TempData["EliminacionExitosa"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-trash-alt me-2"></i> @TempData["EliminacionExitosa"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+}
+
+<div class="mb-4">
+    <a asp-action="Create" class="btn btn-success shadow-sm px-4 py-2" style="font-weight:600; border-radius:8px;">
+        <i class="fas fa-user-plus me-2"></i> Registrar nuevo usuario
+    </a>
+</div>
+
+<table class="table table-dark table-striped table-bordered align-middle">
+    <thead class="table-light text-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Departamento</th>
+            <th>Municipio</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.nombre</td>
+                <td>@u.usuario</td>
+                <td>@u.rol</td>
+                <td>@u.correo</td>
+                <td>@u.telefono</td>
+                <td>@u.departamento</td>
+                <td>@u.municipio</td>
+                <td class="text-center">
+                    <div class="d-flex flex-column align-items-center gap-2">
+                        <a asp-action="Edit" asp-route-id="@u.id_usuario" class="btn btn-sm btn-warning w-75">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@u.id_usuario" class="btn btn-sm btn-danger w-75">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,78 @@
+﻿@model Proyecto_Catedra_Medicamento.Models.Usuario
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<header class="mb-4">
+    <h1 class="text-warning">Editar usuario</h1>
+    <p class="lead">
+        Actualice los datos del usuario seleccionado. Esta acción permite modificar credenciales, contacto y ubicación institucional.
+    </p>
+</header>
+
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+<form asp-action="Edit" method="post" class="row g-3">
+    <input type="hidden" asp-for="id_usuario" />
+
+    <div class="col-md-6">
+        <label asp-for="nombre" class="form-label">Nombre completo</label>
+        <input asp-for="nombre" class="form-control" />
+        <span asp-validation-for="nombre" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="usuario" class="form-label">Usuario</label>
+        <input asp-for="usuario" class="form-control" />
+        <span asp-validation-for="usuario" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="contrasena" class="form-label">Contraseña</label>
+        <input asp-for="contrasena" class="form-control" type="password" />
+        <span asp-validation-for="contrasena" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="correo" class="form-label">Correo electrónico</label>
+        <input asp-for="correo" class="form-control" />
+        <span asp-validation-for="correo" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="telefono" class="form-label">Teléfono</label>
+        <input asp-for="telefono" class="form-control" />
+        <span asp-validation-for="telefono" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="departamento" class="form-label">Departamento</label>
+        <input asp-for="departamento" class="form-control" />
+        <span asp-validation-for="departamento" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="municipio" class="form-label">Municipio</label>
+        <input asp-for="municipio" class="form-control" />
+        <span asp-validation-for="municipio" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Rol asignado</label>
+        <input class="form-control" value="@Model.rol" disabled />
+        <small class="text-muted">Este campo no puede ser editado desde esta vista.</small>
+    </div>
+
+    <div class="col-12 mt-4">
+        <button type="submit" class="btn btn-warning px-4 py-2">
+            <i class="fas fa-save me-2"></i> Guardar cambios
+        </button>
+        <a asp-action="Index" class="btn btn-secondary ms-3">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

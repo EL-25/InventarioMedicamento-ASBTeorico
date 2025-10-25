@@ -15,7 +15,19 @@ namespace Proyecto_Catedra_Medicamento.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            // Si el usuario ya inició sesión, redirigir según rol
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Administrador"))
+                    return RedirectToAction("Index", "Admin");
+
+                // Si tienes otro controlador para operadores
+                if (User.IsInRole("Operador"))
+                    return RedirectToAction("Index", "Operador");
+            }
+
+            // Si no hay sesión activa, mostrar la vista institucional pública
+            return View(); // Muestra Views/Home/Index.cshtml
         }
 
         public IActionResult Privacy()

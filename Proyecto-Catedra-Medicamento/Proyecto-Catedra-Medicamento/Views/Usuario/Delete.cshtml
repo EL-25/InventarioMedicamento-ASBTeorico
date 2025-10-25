@@ -1,0 +1,39 @@
+﻿@model Proyecto_Catedra_Medicamento.Models.Usuario
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<header class="mb-4">
+    <h1 class="text-danger">Confirmar eliminación de usuario</h1>
+    <p class="lead">
+        Esta acción eliminará permanentemente el registro del usuario <strong>@Model.nombre</strong> del sistema institucional.
+        Asegúrese de validar esta decisión antes de continuar.
+    </p>
+</header>
+
+<div class="card bg-dark border-danger mb-4">
+    <div class="card-body">
+        <h5 class="card-title text-warning">Datos del usuario</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-dark text-light"><strong>Usuario:</strong> @Model.usuario</li>
+            <li class="list-group-item bg-dark text-light"><strong>Rol:</strong> @Model.rol</li>
+            <li class="list-group-item bg-dark text-light"><strong>Correo:</strong> @Model.correo</li>
+            <li class="list-group-item bg-dark text-light"><strong>Teléfono:</strong> @Model.telefono</li>
+            <li class="list-group-item bg-dark text-light"><strong>Departamento:</strong> @Model.departamento</li>
+            <li class="list-group-item bg-dark text-light"><strong>Municipio:</strong> @Model.municipio</li>
+        </ul>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="id_usuario" />
+
+    <div class="d-flex justify-content-start gap-3">
+        <button type="submit" class="btn btn-danger px-4 py-2">
+            <i class="fas fa-trash-alt me-2"></i> Confirmar eliminación
+        </button>
+        <a asp-action="Index" class="btn btn-secondary px-4 py-2">
+            <i class="fas fa-arrow-left me-2"></i> Cancelar
+        </a>
+    </div>
+</form>
