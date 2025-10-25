@@ -4,7 +4,6 @@
 
 @inject Proyecto_Catedra_Medicamento.Data.AppDbContext _context
 
-<!-- Estilos institucionales y animación -->
 <style>
     body {
         background: linear-gradient(to right, #1f1c2c, #928dab);
@@ -58,13 +57,23 @@
             background-color: #00cccc;
         }
 
-    .register-link {
+    .btn-register {
         display: block;
-        text-align: center;
+        width: 100%;
         margin-top: 20px;
+        padding: 10px;
+        background-color: #28a745;
         color: #fff;
-        text-decoration: underline;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
     }
+
+        .btn-register:hover {
+            background-color: #218838;
+        }
 
     .text-danger {
         font-size: 0.9rem;
@@ -73,22 +82,24 @@
     }
 
     @@keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
+        from
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     }
 </style>
 
 <div class="login-container">
     <h2>Acceso al Sistema</h2>
 
-    @* Mensaje de éxito si el usuario fue registrado correctamente *@
     @if (TempData["RegistroExitoso"] != null)
     {
         <div class="alert alert-success text-center">
@@ -96,7 +107,6 @@
         </div>
     }
 
-    @* Mensaje de error si las credenciales fallan *@
     @if (ViewBag.Error != null)
     {
         <div class="alert alert-danger text-center">
@@ -105,22 +115,25 @@
     }
 
     <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <div class="form-group">
-            <label for="usuario">Usuario</label>
+            <label for="usuario"><i class="fas fa-user"></i> Usuario</label>
             <input type="text" name="usuario" class="form-control" required />
         </div>
 
         <div class="form-group">
-            <label for="contraseña">Contraseña</label>
-            <input type="password" name="contrasena" class="form-control" required />
+            <label for="contrasena"><i class="fas fa-lock"></i> Contraseña</label>
+            <input type="password" name="contrasena" class="form-control" required autocomplete="new-password" />
         </div>
 
         <button type="submit" class="btn-login">Ingresar</button>
     </form>
 
-    @* Mostrar el botón de registro solo si no hay usuarios registrados *@
     @if (!_context.Usuario.Any())
     {
-        <a asp-controller="Registro" asp-action="Registro" class="register-link">Registrar Usuario</a>
+        <a asp-controller="Registro" asp-action="Registro" class="btn-register">
+            <i class="fas fa-user-plus"></i> Registrar Usuario
+        </a>
     }
 </div>

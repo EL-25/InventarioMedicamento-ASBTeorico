@@ -2,62 +2,84 @@
 using Proyecto_Catedra_Medicamento.Models;
 using Proyecto_Catedra_Medicamento.Data;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace Proyecto_Catedra_Medicamento.Controllers
 {
-    // Este controlador se encarga SOLO del login
     public class LoginController : Controller
     {
-        // Creamos una variable privada para acceder a la base de datos
         private readonly AppDbContext _context;
 
-        // Constructor que recibe el contexto de base de datos y lo guarda en la variable privada
         public LoginController(AppDbContext context)
         {
             _context = context;
         }
 
-        // Acción que muestra el formulario de login (cuando el usuario entra a la página)
+        // Vista GET para mostrar el formulario de login
         [HttpGet]
         public IActionResult Login()
         {
-            // Muestra la vista Login/Login.cshtml
+            return View(); // Muestra Login/Login.cshtml
+        }
+
+        // Vista POST para procesar el login
+        [HttpPost]
+        public async Task<IActionResult> Login(string usuario, string contrasena)
+        {
+            // Validación básica de campos vacíos
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
+            {
+                ViewBag.Error = "Debe ingresar usuario y contraseña.";
+                return View();
+            }
+
+            // Normalizamos entrada para comparación segura
+            var usuarioInput = usuario.Trim().ToLower();
+            var contrasenaInput = contrasena.Trim();
+
+            // Consulta en base de datos (sin StringComparison por compatibilidad con MySQL)
+            var usuarioEncontrado = _context.Usuario
+                .FirstOrDefault(u =>
+                    u.usuario.ToLower() == usuarioInput &&
+                    u.contrasena == contrasenaInput);
+
+            if (usuarioEncontrado != null)
+            {
+                // Creamos los claims para sesión real
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, usuarioEncontrado.nombre),
+                    new Claim(ClaimTypes.Role, usuarioEncontrado.rol)
+                };
+
+                // Creamos la identidad y el principal
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                // Activamos la sesión con cookies
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                // Redirección según rol
+                if (usuarioEncontrado.rol == "Administrador")
+                    return RedirectToAction("Index", "Admin");
+                else
+                    return RedirectToAction("Index", "Operador");
+            }
+
+            // Si no se encuentra el usuario
+            ViewBag.Error = "Credenciales incorrectas.";
             return View();
         }
 
-        // Acción que procesa el login (cuando el usuario hace clic en "Ingresar")
-        [HttpPost]
-        public IActionResult Login(string usuario, string contrasena)
+        // Cierre de sesión
+        public async Task<IActionResult> Logout()
         {
-            // Validamos que el usuario haya escrito algo en ambos campos
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
-            {
-                // Si falta algún campo, mostramos un mensaje de error
-                ViewBag.Error = "Debe ingresar usuario y contraseña.";
-                return View(); // Volvemos a mostrar el formulario
-            }
-
-            // Buscamos en la base de datos un usuario que coincida con el nombre de usuario y la contraseña
-            var usuarioEncontrado = _context.Usuario
-                .FirstOrDefault(u => u.usuario.Trim() == usuario.Trim() && u.contrasena.Trim() == contrasena.Trim());
-
-            // Si encontramos un usuario válido...
-            if (usuarioEncontrado != null)
-            {
-                // Guardamos temporalmente el nombre y rol del usuario (puede usarse en otras vistas)
-                TempData["NombreUsuario"] = usuarioEncontrado.nombre;
-                TempData["Rol"] = usuarioEncontrado.rol;
-
-                // Redirigimos según el rol del usuario
-                if (usuarioEncontrado.rol == "Administrador")
-                    return RedirectToAction("Index", "Admin"); // Va al controlador Admin
-                else
-                    return RedirectToAction("Index", "Operador"); // Va al controlador Operador
-            }
-
-            // Si no encontramos el usuario, mostramos error
-            ViewBag.Error = "Credenciales incorrectas.";
-            return View(); // Volvemos a mostrar el formulario
+            // Cerramos sesión y redirigimos al login
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Login");
         }
     }
 }

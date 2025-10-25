@@ -2,6 +2,8 @@
     ViewData["Title"] = "Bienvenidos al Inventario de Medicamentos - Clínica Vitalis";
 }
 
+@inject Proyecto_Catedra_Medicamento.Data.AppDbContext _context
+
 <style>
     body {
         background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
@@ -33,6 +35,20 @@
         text-align: center;
     }
 
+    .action-buttons {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+        .action-buttons a {
+            font-size: 1rem;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
     @@keyframes fadeIn {
         from
 
@@ -56,5 +72,21 @@
             Nuestra plataforma ha sido diseñada para fortalecer la gestión farmacéutica institucional, garantizando precisión, trazabilidad y control en cada movimiento de inventario.
             Con enfoque académico y visual refinado, Clínica Vitalis apuesta por la innovación en salud, la eficiencia operativa y la transparencia en cada registro.
         </p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="action-buttons">
+                <a asp-controller="Login" asp-action="Login" class="btn btn-info">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </a>
+
+                @if (!_context.Usuario.Any())
+                {
+                    <a asp-controller="Registro" asp-action="Registro" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i> Registrar Usuario
+                    </a>
+                }
+            </div>
+        }
     </div>
 </div>

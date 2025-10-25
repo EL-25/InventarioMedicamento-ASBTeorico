@@ -1,5 +1,12 @@
-﻿@{
-    Layout = null;
+﻿@inject Proyecto_Catedra_Medicamento.Data.AppDbContext _context
+@{
+    bool hayUsuarios = _context.Usuario.Any();
+    bool usuarioAutenticado = User.Identity.IsAuthenticated;
+    bool mostrarLayout = hayUsuarios && usuarioAutenticado;
+
+    var rutaActual = Context.Request.Path.Value?.ToLower();
+    bool esVistaPrincipal = rutaActual == "/admin";
+    bool mostrarMenuLateral = mostrarLayout && !esVistaPrincipal;
 }
 
 <!DOCTYPE html>
@@ -10,15 +17,16 @@
     <title>@ViewData["Title"] - Proyecto_Catedra_Medicamento</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         body {
-            display: flex;
-            min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(to right, #1f1c2c, #928dab);
             color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
         }
 
         .sidebar {
@@ -26,8 +34,11 @@
             background-color: #2c3e50;
             padding-top: 30px;
             position: fixed;
-            height: 100%;
+            top: 0;
+            left: 0;
+            bottom: 0;
             box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
         }
 
             .sidebar a {
@@ -44,61 +55,105 @@
                     background-color: #34495e;
                 }
 
-        .main-content {
-            margin-left: 250px;
-            padding: 30px;
-            flex-grow: 1;
-        }
-
-        header {
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: @(mostrarMenuLateral ? "250px" : "0");
+            right: 0;
+            height: 60px;
             background-color: #1abc9c;
-            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 999;
         }
 
-            header h1 {
-                margin: 0;
-                font-size: 1.8rem;
-                color: #fff;
+            .topbar .actions {
+                display: flex;
+                gap: 20px;
             }
+
+                .topbar .actions a {
+                    color: #fff;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+                    .topbar .actions a:hover {
+                        text-decoration: underline;
+                    }
+
+        .main-content {
+            margin-left: @(mostrarMenuLateral ? "250px" : "0");
+            margin-top: 60px;
+            padding: 30px;
+            padding-bottom: 80px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #00ffff;
+            text-shadow: 1px 1px 10px #000;
+        }
 
         footer {
             background-color: #2c3e50;
             color: #bdc3c7;
             text-align: center;
             padding: 15px;
-            position: fixed;
+            position: absolute;
             bottom: 0;
-            left: 250px;
+            left: 0;
             right: 0;
         }
     </style>
 </head>
 <body>
-    <!-- Menú lateral institucional con Font Awesome -->
-    <div class="sidebar">
-        <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Inicio</a>
-        <a asp-controller="Login" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
-        <a asp-controller="Registro" asp-action="Registro"><i class="fas fa-user-plus"></i> Registrar Usuario</a>
-        <a asp-controller="Medicamento" asp-action="Index"><i class="fas fa-pills"></i> Medicamentos</a>
-        <a asp-controller="Proveedor" asp-action="Index"><i class="fas fa-truck"></i> Proveedores</a>
-        <a asp-controller="Entrada" asp-action="Index"><i class="fas fa-arrow-down"></i> Entradas</a>
-        <a asp-controller="Salida" asp-action="Index"><i class="fas fa-arrow-up"></i> Salidas</a>
-    </div>
+    @if (mostrarMenuLateral)
+    {
+        <!-- Menú lateral institucional refinado -->
+        <div class="sidebar">
+            <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Inicio</a>
+            <a asp-controller="Medicamento" asp-action="Index"><i class="fas fa-pills"></i> Medicamentos</a>
+            <a asp-controller="Proveedor" asp-action="Index"><i class="fas fa-briefcase"></i> Proveedores</a>
+            <a asp-controller="Entrada" asp-action="Index"><i class="fas fa-arrow-down"></i> Entradas</a>
+            <a asp-controller="Salida" asp-action="Index"><i class="fas fa-arrow-up"></i> Salidas</a>
+            <a asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> Usuarios</a>
+            <a asp-controller="Reportes" asp-action="ExportarPDF"><i class="fas fa-file-pdf"></i> Reportes PDF</a>
+            <a asp-controller="Simulacion" asp-action="Index"><i class="fas fa-vial"></i> Simulación</a>
 
-    <!-- Contenido principal -->
+            @if (User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Configuracion" asp-action="Index"><i class="fas fa-cogs"></i> Configuración</a>
+            }
+        </div>
+    }
+
+    @if (mostrarLayout)
+    {
+        <!-- Barra superior institucional -->
+        <div class="topbar">
+            <div><strong>Bienvenido, @User.Identity.Name (@User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value)</strong></div>
+            <div class="actions">
+                <a asp-controller="Login" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+            </div>
+        </div>
+    }
+
     <div class="main-content">
-        <header>
-            <h1>@ViewData["Title"]</h1>
-        </header>
-
         <main role="main" class="pb-5">
             @RenderBody()
         </main>
 
-        <footer>
-            &copy; 2025 - Proyecto_Catedra_Medicamento - Sistema de Inventario Institucional
-        </footer>
+        @if (mostrarLayout)
+        {
+            <footer>
+                &copy; 2025 - Proyecto_Catedra_Medicamento - Sistema de Inventario Institucional
+            </footer>
+        }
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

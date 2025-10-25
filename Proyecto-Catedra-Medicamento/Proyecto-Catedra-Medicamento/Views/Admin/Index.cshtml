@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Panel de Administración";
+}
+
+<!-- Estilos específicos para el panel -->
+<style>
+    .admin-welcome {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .admin-welcome h2 {
+            font-size: 2rem;
+            color: #00ffff;
+            text-shadow: 1px 1px 10px #000;
+            margin-bottom: 10px;
+        }
+
+        .admin-welcome p {
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+    .admin-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .admin-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 25px;
+        width: 250px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        transition: transform 0.3s ease;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .admin-card i {
+            font-size: 2.5rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+        }
+
+        .admin-card h4 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .admin-card p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+</style>
+
+<div class="admin-welcome">
+    <h2>Bienvenido, Administrador</h2>
+    <p>Acceso autorizado. Aquí puedes gestionar el sistema institucional.</p>
+</div>
+
+<div class="admin-cards">
+    <a asp-controller="Usuario" asp-action="Index" class="admin-card">
+        <i class="fas fa-users"></i>
+        <h4>Gestión de Usuarios</h4>
+        <p>Registrar, editar y asignar roles a usuarios del sistema.</p>
+    </a>
+
+    <a asp-controller="Medicamento" asp-action="Index" class="admin-card">
+        <i class="fas fa-pills"></i>
+        <h4>Inventario</h4>
+        <p>Control de medicamentos, entradas y salidas.</p>
+    </a>
+
+    <a asp-controller="Reportes" asp-action="ExportarPDF" class="admin-card">
+        <i class="fas fa-file-pdf"></i>
+        <h4>Exportar PDF</h4>
+        <p>Generar reportes institucionales para respaldo y presentación.</p>
+    </a>
+
+    <a asp-controller="Simulacion" asp-action="Index" class="admin-card">
+        <i class="fas fa-vial"></i>
+        <h4>Simulación</h4>
+        <p>Probar flujos como PagoServicios y validación de dispositivos.</p>
+    </a>
+
+    <a asp-controller="Configuracion" asp-action="Index" class="admin-card">
+        <i class="fas fa-cogs"></i>
+        <h4>Configuración</h4>
+        <p>Modificar parámetros del sistema y activar módulos.</p>
+    </a>
+</div>
