@@ -1,0 +1,28 @@
+# Archivos de usuario
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Resultados de compilación
+bin/
+obj/
+build/
+[Bb]uild/
+[Bb]ld/
+
+# Archivos de log
+*.log
+
+# Archivos de configuración local
+.vs/
+*.dbmdl
+*.pdb
+
+# Archivos de publicación
+publish/
+out/
+
+# Archivos de entorno
+appsettings.Development.json
+applicationhost.config

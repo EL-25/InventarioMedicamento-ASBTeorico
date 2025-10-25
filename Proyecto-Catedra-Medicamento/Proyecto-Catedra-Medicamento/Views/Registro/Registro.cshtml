@@ -1,0 +1,214 @@
+﻿@model Proyecto_Catedra_Medicamento.Models.Usuario
+@{
+    ViewData["Title"] = "Registrar Usuario";
+}
+
+<!-- Estilos institucionales y animación -->
+<style>
+    body {
+        background: linear-gradient(to right, #1f1c2c, #928dab);
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    .registro-container {
+        max-width: 500px;
+        margin: 80px auto;
+        padding: 40px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 700;
+        color: #00ffff;
+        text-shadow: 1px 1px 10px #000;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #ddd;
+    }
+
+    .form-control {
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        border: none;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-register {
+        width: 100%;
+        padding: 12px;
+        background-color: #00ffff;
+        color: #000;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background-color: #00cccc;
+        }
+
+    .text-danger {
+        font-size: 0.9rem;
+        margin-top: -5px;
+        margin-bottom: 10px;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="registro-container">
+    <h2>Registro de Usuario</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger text-center">
+            @ViewBag.Error
+        </div>
+    }
+
+    <form asp-action="Registro" method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input asp-for="nombre" class="form-control" />
+            <span asp-validation-for="nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="usuario">Nombre de usuario</label>
+            <input asp-for="usuario" class="form-control" />
+            <span asp-validation-for="usuario" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="contrasena">Contraseña (prueba)</label>
+            <input asp-for="contrasena" type="password" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="contrasena" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input asp-for="telefono" class="form-control" />
+            <span asp-validation-for="telefono" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="correo">Correo electrónico</label>
+            <input asp-for="correo" type="email" class="form-control" />
+            <span asp-validation-for="correo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="departamento">Departamento</label>
+            <select asp-for="departamento" class="form-control" id="departamento">
+                <option value="">Seleccione un departamento</option>
+                <option>Ahuachapán</option>
+                <option>Cabañas</option>
+                <option>Chalatenango</option>
+                <option>Cuscatlán</option>
+                <option>La Libertad</option>
+                <option>La Paz</option>
+                <option>La Unión</option>
+                <option>Morazán</option>
+                <option>San Miguel</option>
+                <option>San Salvador</option>
+                <option>San Vicente</option>
+                <option>Santa Ana</option>
+                <option>Sensuntepeque</option>
+                <option>Sonzacate</option>
+                <option>Usulután</option>
+            </select>
+            <span asp-validation-for="departamento" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="municipio">Municipio</label>
+            <select asp-for="municipio" class="form-control" id="municipio">
+                <option value="">Seleccione un municipio</option>
+            </select>
+            <span asp-validation-for="municipio" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-register">Registrar</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const municipiosPorDepartamento = {
+            "San Salvador": ["Mejicanos", "Soyapango", "San Marcos", "Ilopango", "San Salvador", "Ayutuxtepeque"],
+            "La Libertad": ["Santa Tecla", "Antiguo Cuscatlán", "Colón", "Quezaltepeque", "Zaragoza"],
+            "Santa Ana": ["Santa Ana", "Metapán", "Chalchuapa"],
+            "San Miguel": ["San Miguel", "Chinameca", "Ciudad Barrios"],
+            "Usulután": ["Usulután", "Jiquilisco", "Santa María"],
+            "Ahuachapán": ["Ahuachapán", "Apaneca", "Tacuba"],
+            "Cabañas": ["Sensuntepeque", "Ilobasco"],
+            "Chalatenango": ["Chalatenango", "La Palma", "Dulce Nombre de María"],
+            "Cuscatlán": ["Cojutepeque", "Suchitoto"],
+            "La Paz": ["Zacatecoluca", "San Juan Talpa"],
+            "La Unión": ["La Unión", "Conchagua"],
+            "Morazán": ["San Francisco Gotera", "Jocoro"],
+            "San Vicente": ["San Vicente", "Verapaz"],
+            "Sonzacate": ["Sonzacate"]
+        };
+
+        document.getElementById("departamento").addEventListener("change", function () {
+            const depto = this.value;
+            const municipioSelect = document.getElementById("municipio");
+            municipioSelect.innerHTML = '<option value="">Seleccione un municipio</option>';
+
+            if (municipiosPorDepartamento[depto]) {
+                municipiosPorDepartamento[depto].forEach(function (muni) {
+                    const option = document.createElement("option");
+                    option.value = muni;
+                    option.text = muni;
+                    municipioSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Ejecutar al cargar la página si ya hay un departamento seleccionado
+        window.addEventListener("DOMContentLoaded", function () {
+            const depto = document.getElementById("departamento").value;
+            const municipioSelect = document.getElementById("municipio");
+
+            if (depto && municipiosPorDepartamento[depto]) {
+                municipioSelect.innerHTML = '<option value="">Seleccione un municipio</option>';
+                municipiosPorDepartamento[depto].forEach(function (muni) {
+                    const option = document.createElement("option");
+                    option.value = muni;
+                    option.text = muni;
+                    municipioSelect.appendChild(option);
+                });
+
+                const municipioActual = "@Model.municipio";
+                if (municipioActual) {
+                    municipioSelect.value = municipioActual;
+                }
+            }
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
