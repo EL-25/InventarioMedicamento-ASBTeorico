@@ -52,7 +52,8 @@ namespace Proyecto_Catedra_Medicamento.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usuarioEncontrado.nombre),
-                    new Claim(ClaimTypes.Role, usuarioEncontrado.rol)
+                    new Claim(ClaimTypes.Role, usuarioEncontrado.rol),
+                    new Claim("IdUsuario", usuarioEncontrado.id_usuario.ToString())
                 };
 
                 // Creamos la identidad y el principal

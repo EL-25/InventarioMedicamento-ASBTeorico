@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Catedra_Medicamento.Models
 {
+    [Table("entrada")]
     public class Entrada
     {
         [Key]

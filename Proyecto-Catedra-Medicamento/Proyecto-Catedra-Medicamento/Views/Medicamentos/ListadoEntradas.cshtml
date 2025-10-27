@@ -1,0 +1,68 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.ViewModels.EntradaViewModel>
+@{
+    ViewData["Title"] = "Entradas Registradas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+        color: #fff;
+    }
+
+    table {
+        width: 90%;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: rgba(0,0,0,0.6);
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #00ffff;
+        text-align: left;
+    }
+
+    th {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    h2 {
+        text-align: center;
+        color: #00ffff;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 10px #000;
+    }
+</style>
+
+<h2>Entradas Registradas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Medicamento</th>
+            <th>Proveedor</th>
+            <th>Fecha Vencimiento</th>
+            <th>Cantidad</th>
+            <th>Fecha Ingreso</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.nombre_medicamento</td>
+                <td>@e.nombre_proveedor</td>
+                <td>@e.fecha_vencimiento.ToShortDateString()</td>
+                <td>@e.cantidad</td>
+                <td>@e.fecha.ToShortDateString()</td>
+                <td>@e.nombre_usuario</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Catedra_Medicamento.Models
 {
+    [Table("medicamento")] // ← nombre real de la tabla en MySQL
     public class Medicamento
     {
         [Key]

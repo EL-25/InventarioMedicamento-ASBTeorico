@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Registrar Ingreso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+    }
+
+    .admin-welcome {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .admin-welcome h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 10px #000;
+            margin-bottom: 10px;
+        }
+
+        .admin-welcome h2 {
+            font-size: 2rem;
+            color: #00ffff;
+            text-shadow: 1px 1px 10px #000;
+            margin-bottom: 10px;
+        }
+
+        .admin-welcome p {
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+    .admin-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 25px;
+        width: 400px;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        transition: transform 0.3s ease;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+        }
+
+    label, select, input, textarea {
+        color: #fff;
+        display: block;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    select, input, textarea {
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background-color: #222;
+        color: #00ffff;
+    }
+
+    .btn-submit {
+        background-color: #00ffff;
+        color: #000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .alert {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
+        font-weight: bold;
+    }
+
+    .validation-error {
+        color: orange;
+        font-size: 0.9rem;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="admin-welcome">
+    <h1>Formulario de Registro de Ingreso</h1>
+    <h2>Registrar Ingreso</h2>
+    <p>Seleccione un medicamento y proveedor existentes para registrar una nueva entrada</p>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert" style="background-color: #ff4444; color: #fff;">@TempData["Error"]</div>
+}
+
+<div class="admin-card">
+    <form asp-action="RegistrarIngreso" method="post">
+        <label for="id_medicamento">Medicamento</label>
+        <select name="id_medicamento" required>
+            <option value="">-- Seleccione --</option>
+            @foreach (var m in ViewBag.Medicamentos)
+            {
+                <option value="@m.id_medicamento">@m.nombre (@m.presentacion)</option>
+            }
+        </select>
+
+        <label for="id_proveedor">Proveedor</label>
+        <select name="id_proveedor" required>
+            <option value="">-- Seleccione --</option>
+            @foreach (var p in ViewBag.Proveedores)
+            {
+                <option value="@p.id_proveedor">@p.nombre</option>
+            }
+        </select>
+
+        <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+        <input type="date" name="fecha_vencimiento" required />
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" name="cantidad" required min="1" />
+
+        <label for="observaciones">Observaciones</label>
+        <textarea name="observaciones" rows="3"></textarea>
+
+        <button type="submit" class="btn-submit">Registrar</button>
+
+    </form>
+
+
+</div>
+<div style="text-align: center; margin-top: 30px;">
+    <a asp-action="RegistrarMedicamento" class="btn-submit" style="text-decoration: none;">
+        ¿Medicamento nuevo? Registrar medicamento
+    </a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

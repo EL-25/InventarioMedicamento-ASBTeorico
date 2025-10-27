@@ -1,0 +1,145 @@
+﻿@{
+    ViewData["Title"] = "Registrar Medicamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+    }
+
+    .admin-welcome {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .admin-welcome h2 {
+            font-size: 2rem;
+            color: #00ffff;
+            text-shadow: 1px 1px 10px #000;
+            margin-bottom: 10px;
+        }
+
+        .admin-welcome p {
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+    .admin-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 25px;
+        width: 400px;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        transition: transform 0.3s ease;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+        }
+
+    label, input {
+        color: #fff;
+        display: block;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    input {
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background-color: #222;
+        color: #00ffff;
+    }
+
+    .btn-submit {
+        background-color: #00ffff;
+        color: #000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .alert {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
+        font-weight: bold;
+    }
+
+    .validation-error {
+        color: orange;
+        font-size: 0.9rem;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="admin-welcome">
+    <h2>Registrar Medicamento</h2>
+    <p>Complete los datos para agregar un nuevo medicamento al sistema</p>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert" style="background-color: #ff4444; color: #fff;">@TempData["Error"]</div>
+}
+
+<div class="admin-card">
+    <form asp-action="RegistrarMedicamento" method="post">
+        <label for="nombre">Nombre</label>
+        <input name="nombre" required />
+        <span class="validation-error">@ViewData.ModelState["nombre"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <label for="presentacion">Presentación</label>
+        <input name="presentacion" required />
+        <span class="validation-error">@ViewData.ModelState["presentacion"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <label for="marca">Marca</label>
+        <input name="marca" />
+        <span class="validation-error">@ViewData.ModelState["marca"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" name="cantidad" required min="1" />
+        <span class="validation-error">@ViewData.ModelState["cantidad"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+        <input type="date" name="fecha_vencimiento" required />
+        <span class="validation-error">@ViewData.ModelState["fecha_vencimiento"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <label for="proveedor">Proveedor</label>
+        <input name="proveedor" required />
+        <span class="validation-error">@ViewData.ModelState["proveedor"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+
+        <button type="submit" class="btn-submit">Registrar</button>
+
+
+    </form>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a asp-action="RegistrarIngreso" class="btn-submit" style="text-decoration: none;">
+        Volver a registrar Medicamento existentes
+    </a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

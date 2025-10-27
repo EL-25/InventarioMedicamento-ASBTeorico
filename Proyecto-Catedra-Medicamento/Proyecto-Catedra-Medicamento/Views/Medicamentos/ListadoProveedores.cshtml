@@ -1,0 +1,60 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.Proveedor>
+@{
+    ViewData["Title"] = "Listado de Proveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+        color: #fff;
+    }
+
+    table {
+        width: 80%;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: rgba(0,0,0,0.6);
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #00ffff;
+        text-align: left;
+    }
+
+    th {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    h2 {
+        text-align: center;
+        color: #00ffff;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 10px #000;
+    }
+</style>
+
+<h2>Listado de Proveedores Registrados</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var proveedor in Model)
+        {
+            <tr>
+                <td>@proveedor.id_proveedor</td>
+                <td>@proveedor.nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>

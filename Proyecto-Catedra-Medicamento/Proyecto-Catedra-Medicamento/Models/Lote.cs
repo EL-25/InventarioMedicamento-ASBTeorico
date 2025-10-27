@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace Proyecto_Catedra_Medicamento.Models
 {
+    [Table("lote")]
     public class Lote
     {
         [Key]
@@ -18,4 +21,5 @@ namespace Proyecto_Catedra_Medicamento.Models
         [Required(ErrorMessage = "Debe seleccionar un proveedor")]
         public int id_proveedor { get; set; }
     }
+
 }
