@@ -19,7 +19,7 @@ namespace Proyecto_Catedra_Medicamento.Models
         public int cantidad { get; set; }
 
         [StringLength(500, ErrorMessage = "Las observaciones no deben exceder los 500 caracteres")]
-        public string observaciones { get; set; }
+        public string observaciones { get; set; } = "";
 
         [Required(ErrorMessage = "Debe seleccionar un lote")]
         public int id_lote { get; set; }

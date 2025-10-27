@@ -1,0 +1,103 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.Salida>
+@{
+    ViewData["Title"] = "Salidas Registradas";
+}
+
+<style>
+    .titulo-seccion {
+        background: linear-gradient(to right, #003366, #005599);
+        color: #00ffff;
+        padding: 15px;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .tabla-encabezado {
+        background-color: #00bcd4;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .tabla-contenido td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .boton-exportar {
+        margin-bottom: 15px;
+        text-align: right;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="titulo-seccion">
+            <i class="fas fa-dolly"></i> Salidas Registradas
+        </div>
+
+        <div class="card-body">
+            <div class="boton-exportar">
+                <a asp-action="ExportarPDF" class="btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </a>
+            </div>
+
+            @if (TempData["mensaje"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> @TempData["mensaje"]
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            }
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle"></i> No hay salidas registradas aún.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+                    <thead class="tabla-encabezado">
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Lote</th>
+                            <th>Cantidad</th>
+                            <th>Usuario</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tabla-contenido">
+                        @foreach (var salida in Model)
+                        {
+                            var color = salida.Lote.cantidad switch
+                            {
+                                <= 5 => "table-danger",
+                                <= 15 => "table-warning",
+                                _ => "table-success"
+                            };
+
+                            <tr class="@color">
+                                <td>@salida.id_salida</td>
+                                <td>@salida.fecha.ToString("dd/MM/yyyy")</td>
+                                <td>@salida.Lote.descripcion</td>
+                                <td>@salida.cantidad</td>
+                                <td>@salida.Usuario.nombre</td>
+                                <td>@(salida.observaciones ?? "")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            <a asp-action="Index" class="btn btn-outline-primary">
+                <i class="fas fa-plus-circle"></i> Registrar nueva salida
+            </a>
+        </div>
+    </div>
+</div>

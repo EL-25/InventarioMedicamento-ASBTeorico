@@ -27,6 +27,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         // Vista para registrar nuevo usuario
         public IActionResult Create()
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             return View();
         }
 
@@ -34,6 +39,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         [HttpPost]
         public IActionResult Create(Usuario nuevoUsuario)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             ModelState.Remove("rol");
 
             bool esPrimerUsuario = !_context.Usuario.Any();
@@ -55,6 +65,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         // Vista para editar usuario existente
         public IActionResult Edit(int id)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             var usuario = _context.Usuario.FirstOrDefault(u => u.id_usuario == id);
             if (usuario == null)
             {
@@ -68,6 +83,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         [HttpPost]
         public IActionResult Edit(Usuario usuarioActualizado)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Error = "Por favor revise los campos antes de guardar.";
@@ -106,6 +126,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         // Vista para confirmar eliminación
         public IActionResult Delete(int id)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             var usuario = _context.Usuario.FirstOrDefault(u => u.id_usuario == id);
             if (usuario == null)
             {
@@ -119,6 +144,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             var usuario = _context.Usuario.FirstOrDefault(u => u.id_usuario == id);
             if (usuario == null)
             {

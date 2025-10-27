@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iTextSharp.text;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Catedra_Medicamento.Data;
 using Proyecto_Catedra_Medicamento.Models;
@@ -161,7 +162,7 @@ namespace Proyecto_Catedra_Medicamento.Controllers
                 doc.Open();
 
                 var titleFont = iTextSharp.text.FontFactory.GetFont("Segoe UI", 16, iTextSharp.text.Font.BOLD, new iTextSharp.text.BaseColor(0, 255, 255));
-                var normalFont = iTextSharp.text.FontFactory.GetFont("Segoe UI", 12, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.WHITE);
+                var normalFont = FontFactory.GetFont("Segoe UI", 12, Font.NORMAL, new BaseColor(255, 255, 255));
 
                 doc.Add(new iTextSharp.text.Paragraph("Factura de Venta", titleFont));
                 doc.Add(new iTextSharp.text.Paragraph($"Fecha: {venta.fecha:dd/MM/yyyy HH:mm}", normalFont));
@@ -173,7 +174,7 @@ namespace Proyecto_Catedra_Medicamento.Controllers
                 table.WidthPercentage = 100;
                 table.SetWidths(new float[] { 2, 2, 1, 1, 1 });
 
-                var headerFont = iTextSharp.text.FontFactory.GetFont("Segoe UI", 12, iTextSharp.text.Font.BOLD, iTextSharp.text.BaseColor.BLACK);
+                var headerFont = FontFactory.GetFont("Segoe UI", 12, Font.BOLD, new BaseColor(0, 0, 0));
                 string[] headers = { "Medicamento", "Presentación", "Cantidad", "Precio", "Subtotal" };
                 foreach (var h in headers)
                     table.AddCell(new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(h, headerFont)));

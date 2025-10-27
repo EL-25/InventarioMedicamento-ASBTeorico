@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Acceso Restringido";
+    var nombreUsuario = User.Identity.Name;
+}
+
+<style>
+    .acceso-container {
+        background: linear-gradient(135deg, #2c2c54, #40407a);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        color: white;
+        max-width: 600px;
+        margin: auto;
+        margin-top: 80px;
+    }
+
+    .acceso-icon {
+        font-size: 4rem;
+        color: #ff4d4d;
+        animation: pulse 1.5s infinite;
+    }
+
+    @@keyframes pulse {
+        0%
+
+    {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+    }
+
+    .btn-retorno {
+        background-color: #00a8ff;
+        color: white;
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-retorno:hover {
+            background-color: #0097e6;
+            text-decoration: none;
+        }
+</style>
+
+<div class="acceso-container text-center">
+    <div class="mb-4">
+        <i class="fas fa-user-lock acceso-icon"></i>
+        <h2 class="mt-3">
+            <i class="fas fa-ban text-danger me-2"></i> Acceso denegado
+        </h2>
+    </div>
+    <p class="lead">
+        Hola, <strong>@nombreUsuario</strong>. Esta sección está disponible únicamente para usuarios con rol <strong>Administrador</strong>.
+    </p>
+    <hr class="bg-light" />
+    <a asp-controller="Operador" asp-action="Index" class="btn-retorno mt-4 d-inline-block">
+        <i class="fas fa-arrow-left me-2"></i> Volver al panel del operador
+    </a>
+</div>

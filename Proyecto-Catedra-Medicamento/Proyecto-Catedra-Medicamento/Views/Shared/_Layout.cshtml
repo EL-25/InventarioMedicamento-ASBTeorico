@@ -5,7 +5,7 @@
     bool mostrarLayout = hayUsuarios && usuarioAutenticado;
 
     var rutaActual = Context.Request.Path.Value?.ToLower();
-    bool esVistaPrincipal = rutaActual == "/admin";
+    bool esVistaPrincipal = rutaActual == "/admin" || rutaActual == "/admin/index" || rutaActual == "/operador" || rutaActual == "/operador/index";
     bool mostrarMenuLateral = mostrarLayout && !esVistaPrincipal;
 }
 
@@ -121,7 +121,10 @@
             <a asp-controller="Medicamentos" asp-action="ListadoProveedores"><i class="fas fa-briefcase"></i> Proveedores</a>
             <a asp-controller="Medicamentos" asp-action="ListadoEntradas"><i class="fas fa-arrow-down"></i> Entradas</a>
             <a asp-controller="Salida" asp-action="Index"><i class="fas fa-arrow-up"></i> Salidas</a>
-            <a asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> Usuarios</a>
+            @if (User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> Usuarios</a>
+            }
 
             @if (User.IsInRole("Administrador"))
             {

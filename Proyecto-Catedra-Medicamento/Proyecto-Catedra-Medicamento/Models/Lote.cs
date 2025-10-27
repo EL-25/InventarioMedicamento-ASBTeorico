@@ -21,6 +21,14 @@ namespace Proyecto_Catedra_Medicamento.Models
         [Required(ErrorMessage = "Debe seleccionar un proveedor")]
         public int id_proveedor { get; set; }
 
+        [Required(ErrorMessage = "La descripción del lote es obligatoria")]
+        [StringLength(200, ErrorMessage = "La descripción no debe exceder los 200 caracteres")]
+        public string descripcion { get; set; }
+
+        [Required(ErrorMessage = "La cantidad disponible es obligatoria")]
+        [Range(0, int.MaxValue, ErrorMessage = "La cantidad debe ser cero o mayor")]
+        public int cantidad { get; set; }
+
         [ForeignKey("id_medicamento")]
         public Medicamento Medicamento { get; set; }
 
@@ -30,5 +38,4 @@ namespace Proyecto_Catedra_Medicamento.Models
         public ICollection<DetalleVenta> DetalleVentas { get; set; }
 
     }
-
 }

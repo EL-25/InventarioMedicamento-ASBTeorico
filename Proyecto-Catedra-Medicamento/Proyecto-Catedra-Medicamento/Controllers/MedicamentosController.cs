@@ -19,6 +19,11 @@ namespace Proyecto_Catedra_Medicamento.Controllers
 
         public IActionResult RegistrarIngreso()
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             ViewBag.Proveedores = db.Proveedores.ToList();
             ViewBag.Medicamentos = db.Medicamentos.ToList();
             return View();
@@ -26,12 +31,22 @@ namespace Proyecto_Catedra_Medicamento.Controllers
 
         public IActionResult RegistrarMedicamento()
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             return View();
         }
 
         [HttpPost]
         public IActionResult RegistrarMedicamento(string nombre, string presentacion, string marca, int cantidad, DateTime fecha_vencimiento, string proveedor)
         {
+            if (!User.IsInRole("Administrador"))
+            {
+                return RedirectToAction("AccesoRestringido", "Operador");
+            }
+
             // Validaciones básicas
             if (string.IsNullOrWhiteSpace(nombre))
                 ModelState.AddModelError("nombre", "El nombre del medicamento es obligatorio.");
@@ -76,7 +91,8 @@ namespace Proyecto_Catedra_Medicamento.Controllers
             {
                 id_medicamento = medicamento.id_medicamento,
                 fecha_vencimiento = fecha_vencimiento,
-                id_proveedor = proveedorExistente.id_proveedor
+                id_proveedor = proveedorExistente.id_proveedor,
+                descripcion = $"{medicamento.nombre} - {presentacion} - {marca} - {fecha_vencimiento:MM/yyyy}"
             };
             db.Lotes.Add(lote);
             db.SaveChanges();
@@ -100,6 +116,10 @@ namespace Proyecto_Catedra_Medicamento.Controllers
                 id_usuario = id_usuario
             };
             db.Entradas.Add(entrada);
+
+            lote.cantidad += cantidad;
+
+
             db.SaveChanges();
 
             TempData["Success"] = "Medicamento y proveedor registrados correctamente.";
