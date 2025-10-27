@@ -19,5 +19,7 @@ namespace Proyecto_Catedra_Medicamento.Models
 
         [StringLength(50)]
         public string marca { get; set; }
+
+        public ICollection<Lote> Lotes { get; set; }
     }
 }

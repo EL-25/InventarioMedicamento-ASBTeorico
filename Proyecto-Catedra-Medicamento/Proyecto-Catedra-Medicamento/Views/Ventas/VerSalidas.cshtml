@@ -1,0 +1,40 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.Salida>
+
+@{
+    ViewData["Title"] = "Salidas de Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Estilos omitidos por brevedad -->
+
+<div class="salidas-card">
+    <h2>Salidas de Inventario</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Medicamento</th>
+                <th>Presentación</th>
+                <th>Lote</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.id_salida</td>
+                    <td>@(s.Lote?.Medicamento?.nombre ?? "Sin medicamento")</td>
+                    <td>@(s.Lote?.Medicamento?.presentacion ?? "N/A")</td>
+                    <td>@s.id_lote</td>
+                    <td>@s.cantidad</td>
+                    <td>@s.fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@(s.Usuario?.nombre ?? "Sin usuario")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -67,6 +67,13 @@
 </div>
 
 <div class="admin-cards">
+
+    <a asp-controller="Ventas" asp-action="RegistrarVenta" class="admin-card">
+        <i class="fas fa-receipt"></i>
+        <h4>Realizar Venta</h4>
+        <p>Se realiza la venta de medicamentos</p>
+    </a>
+
     <a asp-controller="Usuario" asp-action="Index" class="admin-card">
         <i class="fas fa-users"></i>
         <h4>Gestión de Usuarios</h4>
@@ -79,16 +86,10 @@
         <p>Ingresar nuevos lotes de medicamentos al sistema.</p>
     </a>
 
-    <a asp-controller="Reportes" asp-action="ExportarPDF" class="admin-card">
-        <i class="fas fa-file-pdf"></i>
-        <h4>Exportar PDF</h4>
-        <p>Generar reportes institucionales para respaldo y presentación.</p>
-    </a>
-
-    <a asp-controller="Simulacion" asp-action="Index" class="admin-card">
-        <i class="fas fa-vial"></i>
-        <h4>Simulación</h4>
-        <p>Probar flujos como PagoServicios y validación de dispositivos.</p>
+    <a asp-controller="Ventas" asp-action="RevisarInventario" class="admin-card">
+        <i class="fas fa-clipboard-list"></i>
+        <h4>Inventario</h4>
+        <p>Medicamentos almacenados</p>
     </a>
 
     <a asp-controller="Configuracion" asp-action="Index" class="admin-card">

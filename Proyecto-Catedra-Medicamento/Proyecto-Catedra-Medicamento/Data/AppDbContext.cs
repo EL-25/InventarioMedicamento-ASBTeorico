@@ -15,5 +15,8 @@ namespace Proyecto_Catedra_Medicamento.Data
         public DbSet<Lote> Lotes { get; set; }
         public DbSet<Entrada> Entradas { get; set; }
         public DbSet<Salida> Salidas { get; set; }
+
+        public DbSet<Venta> Ventas { get; set; }
+        public DbSet<DetalleVenta> DetalleVentas { get; set; }
     }
 }

@@ -9,5 +9,7 @@
         public string proveedor { get; set; }
         public DateTime fecha_vencimiento { get; set; }
         public int cantidad_total { get; set; }
+        public ICollection<Lote> Lote { get; set; }
+
     }
 }

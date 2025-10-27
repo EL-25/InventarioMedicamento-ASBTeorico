@@ -26,5 +26,11 @@ namespace Proyecto_Catedra_Medicamento.Models
 
         [Required(ErrorMessage = "Debe seleccionar un usuario")]
         public int id_usuario { get; set; }
+
+        [ForeignKey(nameof(id_lote))]
+        public Lote Lote { get; set; }
+
+        [ForeignKey(nameof(id_usuario))]
+        public Usuario Usuario { get; set; }
     }
 }

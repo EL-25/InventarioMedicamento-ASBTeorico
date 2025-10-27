@@ -1,0 +1,114 @@
+﻿@model Proyecto_Catedra_Medicamento.Models.Venta
+
+@{
+    ViewData["Title"] = "Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = Model.Detalles.Sum(d => d.cantidad * d.precio_unitario);
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+        color: #fff;
+    }
+
+    .factura-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 25px;
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #00ffff;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #00ffff;
+        text-align: left;
+        color: #fff;
+    }
+
+    th {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    .total-box {
+        text-align: right;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        color: #00ffff;
+    }
+
+    .btn-group {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .btn-download {
+        background-color: #00ffff;
+        color: #000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+</style>
+
+<div class="factura-card">
+    <h2>Factura de Venta</h2>
+
+    <p><strong>Fecha:</strong> @Model.fecha.ToString("dd/MM/yyyy HH:mm")</p>
+    <p><strong>Usuario:</strong> @Model.Usuario.nombre</p>
+    <p><strong>ID Venta:</strong> @Model.id_venta</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Medicamento</th>
+                <th>Presentación</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model.Detalles)
+            {
+                <tr>
+                    <td>@d.Lote.Medicamento.nombre</td>
+                    <td>@d.Lote.Medicamento.presentacion</td>
+                    <td>@d.cantidad</td>
+                    <td>$@d.precio_unitario.ToString("F2")</td>
+                    <td>$@(d.cantidad* d.precio_unitario).ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="total-box">
+        Total: $@total.ToString("F2")
+    </div>
+
+    <div class="btn-group">
+        <a class="btn-download" href="@Url.Action("DescargarPDF", "Ventas", new { id = Model.id_venta })">Descargar PDF</a>
+        <a class="btn-download" href="@Url.Action("DescargarJSON", "Ventas", new { id = Model.id_venta })">Descargar JSON</a>
+    </div>
+</div>

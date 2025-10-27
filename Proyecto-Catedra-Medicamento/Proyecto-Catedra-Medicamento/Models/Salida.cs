@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Catedra_Medicamento.Models
 {
+    [Table("salida")]
     public class Salida
     {
         [Key]
@@ -24,5 +26,11 @@ namespace Proyecto_Catedra_Medicamento.Models
 
         [Required(ErrorMessage = "Debe seleccionar un usuario")]
         public int id_usuario { get; set; }
+
+        [ForeignKey("id_lote")]
+        public Lote Lote { get; set; }
+
+        [ForeignKey("id_usuario")]
+        public Usuario Usuario { get; set; }
     }
 }

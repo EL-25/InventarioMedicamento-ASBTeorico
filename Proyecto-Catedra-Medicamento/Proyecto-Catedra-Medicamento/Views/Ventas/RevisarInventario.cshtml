@@ -1,0 +1,79 @@
+﻿@model List<Proyecto_Catedra_Medicamento.Models.ViewModels.LoteDisponibleViewModel>
+
+@{
+    ViewData["Title"] = "Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+        color: #fff;
+    }
+
+    .inventario-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 25px;
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #00ffff;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #00ffff;
+        text-align: left;
+        color: #fff;
+    }
+
+    th {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    .stock-bajo {
+        color: #ff4d4d;
+        font-weight: bold;
+    }
+</style>
+
+<div class="inventario-card">
+    <h2>Inventario Actual</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Lote</th>
+                <th>Medicamento</th>
+                <th>Presentación</th>
+                <th>Stock Disponible</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lote in Model)
+            {
+                <tr>
+                    <td>@lote.id_lote</td>
+                    <td>@lote.nombre_medicamento</td>
+                    <td>@lote.presentacion</td>
+                    <td class="@(lote.stock_disponible <= 5 ? "stock-bajo" : "")">@lote.stock_disponible</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

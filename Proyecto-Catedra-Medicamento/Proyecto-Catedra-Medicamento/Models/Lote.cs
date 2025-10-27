@@ -20,6 +20,15 @@ namespace Proyecto_Catedra_Medicamento.Models
 
         [Required(ErrorMessage = "Debe seleccionar un proveedor")]
         public int id_proveedor { get; set; }
+
+        [ForeignKey("id_medicamento")]
+        public Medicamento Medicamento { get; set; }
+
+        public ICollection<Entrada> Entradas { get; set; }
+        public ICollection<Salida> Salidas { get; set; }
+
+        public ICollection<DetalleVenta> DetalleVentas { get; set; }
+
     }
 
 }
