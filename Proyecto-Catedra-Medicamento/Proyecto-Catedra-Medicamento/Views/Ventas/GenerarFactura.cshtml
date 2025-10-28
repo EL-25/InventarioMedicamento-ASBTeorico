@@ -97,18 +97,17 @@
                     <td>@d.Lote.Medicamento.presentacion</td>
                     <td>@d.cantidad</td>
                     <td>$@d.precio_unitario.ToString("F2")</td>
-                    <td>$@(d.cantidad* d.precio_unitario).ToString("F2")</td>
+                    <td>@($"${d.cantidad * d.precio_unitario:F2}")</td>
                 </tr>
             }
         </tbody>
     </table>
 
     <div class="total-box">
-        Total: $@total.ToString("F2")
+        @($"Total: ${total:F2}")
     </div>
 
     <div class="btn-group">
         <a class="btn-download" href="@Url.Action("DescargarPDF", "Ventas", new { id = Model.id_venta })">Descargar PDF</a>
-        <a class="btn-download" href="@Url.Action("DescargarJSON", "Ventas", new { id = Model.id_venta })">Descargar JSON</a>
     </div>
 </div>
