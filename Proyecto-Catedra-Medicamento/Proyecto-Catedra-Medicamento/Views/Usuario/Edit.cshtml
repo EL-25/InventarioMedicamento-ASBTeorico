@@ -59,8 +59,9 @@
 
     <div class="col-md-6">
         <label class="form-label">Rol asignado</label>
-        <input class="form-control" value="@Model.rol" disabled />
-        <small class="text-muted">Este campo no puede ser editado desde esta vista.</small>
+        <p class="form-control-plaintext text-light fw-bold">@Model.rol</p>
+        <input type="hidden" asp-for="rol" />
+        <small class="text-white">Este rol no puede ser modificado.</small>
     </div>
 
     <div class="col-12 mt-4">

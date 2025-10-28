@@ -20,7 +20,6 @@ namespace Proyecto_Catedra_Medicamento.Models
         //[StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         public string contrasena { get; set; }
 
-        [BindNever]
         public string rol { get; set; }
 
         [Required(ErrorMessage = "El teléfono es obligatorio")]
