@@ -21,18 +21,20 @@ namespace Proyecto_Catedra_Medicamento.Controllers
 
         public IActionResult RegistrarVenta()
         {
-            var lotesConStock = db.Lotes
+            var lotes = db.Lotes
                 .Include(l => l.Medicamento)
                 .Include(l => l.Entradas)
                 .Include(l => l.Salidas)
-                .ToList()
+                .ToList(); // ← ejecuta la consulta sin proyección
+
+            var lotesConStock = lotes
                 .Select(l => new LoteDisponibleViewModel
                 {
                     id_lote = l.id_lote,
                     id_medicamento = l.id_medicamento,
                     nombre_medicamento = l.Medicamento.nombre,
                     presentacion = l.Medicamento.presentacion,
-                    stock_disponible = l.Entradas.Sum(e => e.cantidad) - l.Salidas.Sum(s => s.cantidad)
+                    stock_disponible = (l.Entradas?.Sum(e => e.cantidad) ?? 0) - (l.Salidas?.Sum(s => s.cantidad) ?? 0)
                 })
                 .Where(l => l.stock_disponible > 0)
                 .ToList();
@@ -40,6 +42,8 @@ namespace Proyecto_Catedra_Medicamento.Controllers
             ViewBag.LotesConStock = lotesConStock;
             return View();
         }
+
+
         [HttpPost]
         public IActionResult RegistrarVenta([FromForm] string ventasJson)
         {
@@ -105,6 +109,28 @@ namespace Proyecto_Catedra_Medicamento.Controllers
             TempData["Success"] = "Venta registrada correctamente.";
             return RedirectToAction("GenerarFactura", new { id = venta.id_venta });
         }
+
+        public IActionResult ListadoVentas()
+        {
+            var lista = db.DetalleVentas
+                .Include(d => d.Lote)
+                    .ThenInclude(l => l.Medicamento)
+                .Include(d => d.Venta)
+                    .ThenInclude(v => v.Usuario)
+                .OrderByDescending(d => d.Venta.fecha)
+                .Select(d => new
+                {
+                    Medicamento = d.Lote.Medicamento.nombre,
+                    Presentacion = d.Lote.Medicamento.presentacion,
+                    Cantidad = d.cantidad,
+                    Fecha = d.Venta.fecha,
+                    Usuario = d.Venta.Usuario.nombre
+                })
+                .ToList();
+
+            return View("ListadoVentas", lista);
+        }
+
 
         public IActionResult RevisarInventario()
         {

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Ventas Registradas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(to right, #004e92, #000428);
+        padding: 40px;
+        color: #fff;
+    }
+
+    table {
+        width: 90%;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: rgba(0,0,0,0.6);
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #00ffff;
+        text-align: left;
+    }
+
+    th {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    h2 {
+        text-align: center;
+        color: #00ffff;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 10px #000;
+    }
+</style>
+
+<h2>Ventas Registradas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Medicamento</th>
+            <th>Presentación</th>
+            <th>Cantidad</th>
+            <th>Fecha</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>@v.Medicamento</td>
+                <td>@v.Presentacion</td>
+                <td>@v.Cantidad</td>
+                <td>@v.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@v.Usuario</td>
+            </tr>
+        }
+    </tbody>
+</table>

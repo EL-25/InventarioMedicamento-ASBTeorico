@@ -12,29 +12,29 @@
 
 <div class="row justify-content-center g-4">
 
-    <!-- Medicamentos -->
+    <!-- Inventarios de Medicamentos -->
     <div class="col-md-5">
         <div class="card bg-gradient bg-dark text-white shadow-lg border-info">
             <div class="card-body text-center">
                 <i class="fas fa-pills fa-3x text-info mb-3 animate__animated animate__pulse"></i>
-                <h4 class="card-title">Medicamentos Registrados</h4>
+                <h4 class="card-title">Inventario Disponible</h4>
                 <p class="card-text">Consulta el inventario actual de medicamentos disponibles.</p>
-                <a asp-controller="Medicamentos" asp-action="ListadoMedicamentos" class="btn btn-outline-info mt-2">
-                    <i class="fas fa-search"></i> Ir a medicamentos
+                <a asp-controller="Ventas" asp-action="RevisarInventario" class="btn btn-outline-info mt-2">
+                    <i class="fas fa-search"></i> Ir a Inventario
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Proveedores -->
+    <!-- Realizar Venta-->
     <div class="col-md-5">
         <div class="card bg-gradient bg-dark text-white shadow-lg border-success">
             <div class="card-body text-center">
                 <i class="fas fa-truck fa-3x text-success mb-3 animate__animated animate__pulse"></i>
-                <h4 class="card-title">Proveedores</h4>
+                <h4 class="card-title">Realizar Venta</h4>
                 <p class="card-text">Consulta los proveedores registrados en el sistema institucional.</p>
-                <a asp-controller="Medicamentos" asp-action="ListadoProveedores" class="btn btn-outline-success mt-2">
-                    <i class="fas fa-address-book"></i> Ir a proveedores
+                <a asp-controller="Ventas" asp-action="RegistrarVenta" class="btn btn-outline-success mt-2">
+                    <i class="fas fa-address-book"></i> Ir a Realizar Venta
                 </a>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <i class="fas fa-cash-register fa-3x text-danger mb-3 animate__animated animate__pulse"></i>
                 <h4 class="card-title">Salidas</h4>
                 <p class="card-text">Consulta las salidas de medicamentos realizados.</p>
-                <a asp-controller="Salida" asp-action="Index" class="btn btn-outline-danger mt-2">
+                <a asp-controller="Ventas" asp-action="ListadoVentas" class="btn btn-outline-danger mt-2">
                     <i class="fas fa-receipt"></i> Ir a salidas
                 </a>
             </div>
