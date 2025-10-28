@@ -107,7 +107,7 @@
 
         <div class="form-group">
             <label for="telefono">Teléfono</label>
-            <input asp-for="telefono" class="form-control" />
+            <input asp-for="telefono" class="form-control" placeholder="-" />
             <span asp-validation-for="telefono" class="text-danger"></span>
         </div>
 
@@ -153,6 +153,8 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+
     <script>
         const municipiosPorDepartamento = {
             "San Salvador": ["Mejicanos", "Soyapango", "San Marcos", "Ilopango", "San Salvador", "Ayutuxtepeque"],
@@ -205,6 +207,13 @@
                     municipioSelect.value = municipioActual;
                 }
             }
+                    $("#telefono").inputmask({
+            mask: "9999-9999",
+            placeholder: "",
+            showMaskOnHover: false,
+            showMaskOnFocus: false
+        });
+
         });
     </script>
 
