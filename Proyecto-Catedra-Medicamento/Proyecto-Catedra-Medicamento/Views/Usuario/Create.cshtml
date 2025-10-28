@@ -37,19 +37,37 @@
 
     <div class="col-md-6">
         <label asp-for="telefono" class="form-label">Teléfono</label>
-        <input asp-for="telefono" class="form-control" />
+        <input asp-for="telefono" class="form-control" id="telefono" />
         <span asp-validation-for="telefono" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
         <label asp-for="departamento" class="form-label">Departamento</label>
-        <input asp-for="departamento" class="form-control" />
+        <select asp-for="departamento" class="form-select" id="departamento">
+            <option value="">Seleccione un departamento</option>
+            <option value="Ahuachapán">Ahuachapán</option>
+            <option value="Cabañas">Cabañas</option>
+            <option value="Chalatenango">Chalatenango</option>
+            <option value="Cuscatlán">Cuscatlán</option>
+            <option value="La Libertad">La Libertad</option>
+            <option value="La Paz">La Paz</option>
+            <option value="La Unión">La Unión</option>
+            <option value="Morazán">Morazán</option>
+            <option value="San Miguel">San Miguel</option>
+            <option value="San Salvador">San Salvador</option>
+            <option value="San Vicente">San Vicente</option>
+            <option value="Santa Ana">Santa Ana</option>
+            <option value="Sonsonate">Sonsonate</option>
+            <option value="Usulután">Usulután</option>
+        </select>
         <span asp-validation-for="departamento" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
         <label asp-for="municipio" class="form-label">Municipio</label>
-        <input asp-for="municipio" class="form-control" />
+        <select asp-for="municipio" class="form-select" id="municipio">
+            <option value="">Seleccione un municipio</option>
+        </select>
         <span asp-validation-for="municipio" class="text-danger"></span>
     </div>
 
@@ -65,4 +83,43 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#telefono').inputmask('9999-9999', {
+                placeholder: '',
+                showMaskOnHover: false,
+                showMaskOnFocus: true
+            });
+
+            const municipiosPorDepartamento = {
+                "Ahuachapán": ["Ahuachapán", "Apaneca", "Atiquizaya", "Concepción de Ataco", "El Refugio", "Guaymango", "Jujutla", "San Francisco Menéndez", "San Pedro Puxtla", "Tacuba", "Turín"],
+                "Cabañas": ["Cinquera", "Dolores", "Guacotecti", "Ilobasco", "Jutiapa", "San Isidro", "Sensuntepeque", "Tejutepeque", "Victoria"],
+                "Chalatenango": ["Agua Caliente", "Arcatao", "Azacualpa", "Citalá", "Comalapa", "Concepción Quezaltepeque", "Dulce Nombre de María", "El Carrizal", "El Paraíso", "La Laguna", "La Palma", "La Reina", "Las Vueltas", "Nombre de Jesús", "Nueva Concepción", "Nueva Trinidad", "Ojos de Agua", "Potonico", "San Antonio de la Cruz", "San Antonio Los Ranchos", "San Fernando", "San Francisco Lempa", "San Ignacio", "San Isidro Labrador", "San José Cancasque", "San José Las Flores", "San Luis del Carmen", "San Miguel de Mercedes", "San Rafael", "Santa Rita", "Tejutla"],
+                "Cuscatlán": ["Candelaria", "Cojutepeque", "El Carmen", "El Rosario", "Monte San Juan", "Oratorio de Concepción", "San Bartolomé Perulapía", "San Cristóbal", "San José Guayabal", "San Pedro Perulapán", "San Rafael Cedros", "San Ramón", "Santa Cruz Analquito", "Santa Cruz Michapa", "Suchitoto", "Tenancingo"],
+                "La Libertad": ["Antiguo Cuscatlán", "Chiltiupán", "Ciudad Arce", "Colón", "Comasagua", "Huizúcar", "Jayaque", "Jicalapa", "La Libertad", "Nuevo Cuscatlán", "San Juan Opico", "Quezaltepeque", "Sacacoyo", "San José Villanueva", "San Matías", "San Pablo Tacachico", "Santa Tecla", "Talnique", "Tamanique", "Teotepeque", "Zaragoza"],
+                "La Paz": ["Cuyultitán", "El Rosario", "Jerusalén", "Mercedes La Ceiba", "Olocuilta", "Paraíso de Osorio", "San Antonio Masahuat", "San Emigdio", "San Francisco Chinameca", "San Juan Nonualco", "San Juan Talpa", "San Juan Tepezontes", "San Luis La Herradura", "San Luis Talpa", "San Miguel Tepezontes", "San Pedro Masahuat", "San Pedro Nonualco", "San Rafael Obrajuelo", "Santa María Ostuma", "Santiago Nonualco", "Tapalhuaca", "Zacatecoluca"],
+                "La Unión": ["Anamorós", "Bolívar", "Concepción de Oriente", "El Carmen", "El Sauce", "Intipucá", "La Unión", "Lislique", "Meanguera del Golfo", "Nueva Esparta", "Pasaquina", "Polorós", "San Alejo", "San José", "Santa Rosa de Lima", "Yayantique", "Yucuaiquín"],
+                "Morazán": ["Arambala", "Cacaopera", "Chilanga", "Corinto", "Delicias de Concepción", "El Divisadero", "El Rosario", "Gualococti", "Guatajiagua", "Joateca", "Jocoaitique", "Jocoro", "Lolotiquillo", "Meanguera", "Perquín", "San Carlos", "San Fernando", "San Francisco Gotera", "San Isidro", "San Simón", "Sensembra", "Sociedad", "Torola", "Yamabal", "Yoloaiquín"],
+                                "San Miguel": ["San Miguel", "Ciudad Barrios", "Chinameca", "Chapeltique", "Chirilagua", "Comacarán", "El Tránsito", "Lolotique", "Moncagua", "Nueva Guadalupe", "Quelepa", "San Jorge", "San Rafael Oriente", "Uluazapa"],
+                "San Salvador": ["Aguilares", "Apopa", "Ayutuxtepeque", "Cuscatancingo", "El Paisnal", "Guazapa", "Ilopango", "Mejicanos", "Nejapa", "Panchimalco", "Rosario de Mora", "San Marcos", "San Martín", "Santiago Texacuangos", "Santo Tomás", "Soyapango", "Tonacatepeque"],
+                "San Vicente": ["Apastepeque", "Guadalupe", "San Cayetano Istepeque", "San Esteban Catarina", "San Ildefonso", "San Lorenzo", "San Sebastián", "San Vicente", "Santa Clara", "Santo Domingo", "Tecoluca", "Tepetitán", "Verapaz"],
+                "Santa Ana": ["Candelaria de la Frontera", "Chalchuapa", "Coatepeque", "El Congo", "Masahuat", "Metapán", "San Antonio Pajonal", "San Sebastián Salitrillo", "Santa Ana", "Santa Rosa Guachipilín", "Santiago de la Frontera", "Texistepeque"],
+                "Sonsonate": ["Acajutla", "Armenia", "Caluco", "Cuisnahuat", "Izalco", "Juayúa", "Nahuizalco", "Nahulingo", "Salcoatitán", "San Antonio del Monte", "San Julián", "Santa Catarina Masahuat", "Santa Isabel Ishuatán", "Santo Domingo de Guzmán", "Sonsonate", "Sonzacate"],
+                "Usulután": ["Alegría", "Berlín", "California", "Concepción Batres", "El Triunfo", "Ereguayquín", "Estanzuelas", "Jiquilisco", "Jucuapa", "Jucuarán", "Mercedes Umaña", "Nueva Granada", "Ozatlán", "Puerto El Triunfo", "San Agustín", "San Buenaventura", "San Dionisio", "San Francisco Javier", "Santa Elena", "Santa María", "Santiago de María", "Tecapán"]
+            };
+
+            $('#departamento').on('change', function () {
+                const departamento = $(this).val();
+                const municipios = municipiosPorDepartamento[departamento] || [];
+                const municipioSelect = $('#municipio');
+
+                municipioSelect.empty();
+                municipioSelect.append('<option value="">Seleccione un municipio</option>');
+                municipios.forEach(function (m) {
+                    municipioSelect.append(`<option value="${m}">${m}</option>`);
+                });
+            });
+        });
+    </script>
 }

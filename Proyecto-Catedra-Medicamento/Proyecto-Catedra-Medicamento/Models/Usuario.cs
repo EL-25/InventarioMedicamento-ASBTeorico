@@ -25,6 +25,7 @@ namespace Proyecto_Catedra_Medicamento.Models
 
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [Phone(ErrorMessage = "Ingrese un número de teléfono válido")]
+        [StringLength (9)]
         public string telefono { get; set; }
 
         [Required(ErrorMessage = "El correo es obligatorio")]
