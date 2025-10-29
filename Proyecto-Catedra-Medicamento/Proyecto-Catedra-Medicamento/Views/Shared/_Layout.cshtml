@@ -125,11 +125,6 @@
             {
                 <a asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> Usuarios</a>
             }
-
-            @if (User.IsInRole("Administrador"))
-            {
-                <a asp-controller="Configuracion" asp-action="Index"><i class="fas fa-cogs"></i> Configuración</a>
-            }
         </div>
     }
 
